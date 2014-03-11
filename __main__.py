@@ -71,7 +71,7 @@ if __name__ == '__main__':
     parser.add_argument('name', action='store', help='Name of the environment')
     parser.add_argument('--repo', action='store', dest='repo', default=None, help='URL of the repo. Supports svn and github repos.')
     parser.add_argument('--nophpcan', action='store_true', dest='nophpcan',
-                        default=False, help='Do not use phpcan style repo')
+                        default=False, help='Do not create phpcan rewrites')
 
     arguments = parser.parse_args()
 
