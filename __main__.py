@@ -71,11 +71,11 @@ class DevGenerator(object):
 
 if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser(description='Create a development server')
-    parser.add_argument('name', action='store')
-    parser.add_argument('--repo', action='store', dest='repo', default=None)
+    parser = argparse.ArgumentParser(description='Create a local development server')
+    parser.add_argument('name', action='store', help='Name of the environment')
+    parser.add_argument('--repo', action='store', dest='repo', default=None, help='URL of the repo. Supports svn and github repos.')
     parser.add_argument('--nophpcan', action='store_true', dest='nophpcan',
-                        default=False)
+                        default=False, help='Do not use phpcan style repo')
 
     arguments = parser.parse_args()
 
