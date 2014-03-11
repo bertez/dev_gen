@@ -1,16 +1,6 @@
 server {{
   listen 80;
 
-  # listen on the www host
-  server_name www.{name}.dev;
-
-  # and redirect to the non-www host (declared below)
-  return 301 $scheme://{name}.dev$request_uri;
-}}
-
-server {{
-  listen 80;
-
   server_name {name}.dev;
 
   #enable php-fpm
@@ -19,11 +9,11 @@ server {{
   }}
 
   #logs
-  access_log  /Users/berto/Projects/ANS/logs/{name}.access.log  main;
-  error_log  /Users/berto/Projects/ANS/logs/{name}.error.log;
+  access_log  /Users/berto/Projects/www/logs/{name}.access.log  main;
+  error_log  /Users/berto/Projects/www/logs/{name}.error.log;
 
   # Path for static files
-  root /Users/berto/Projects/ANS/{name};
+  root /Users/berto/Projects/www/{name};
 
   #Specify a charset
   charset utf-8;
@@ -31,6 +21,4 @@ server {{
   # Custom 404 page
   # error_page 404 /404.html;
 
-  # Include the basic h5bp config set
-  include extra_config/basic.conf;
 }}

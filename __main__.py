@@ -8,7 +8,7 @@ class DevGenerator(object):
     def __init__(self, name, repo, nophpcan):
         self.name = name
         self.repo = repo
-        self.basedir = '/Users/berto/Projects/ANS/{0}'
+        self.basedir = '/Users/berto/Projects/www/{0}'
         self.targetdir = self.basedir.format(self.name)
         self.confdir = self.basedir.format('conf/')
 
@@ -70,7 +70,6 @@ class DevGenerator(object):
 
 
 if __name__ == '__main__':
-    #./dev_gen name --repo url
 
     parser = argparse.ArgumentParser(description='Create a development server')
     parser.add_argument('name', action='store')
