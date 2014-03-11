@@ -39,10 +39,6 @@ class DevGenerator(object):
         with open(self.confdir + self.name, 'w') as f:
             f.write(self.conf)
 
-        # Fix permissions/group
-        #print 'Fixing permissions'
-        #os.chown(self.targetdir, self.uid, self.gid)
-
     def updateRepo(self):
         command = 'git clone {0} {1}' if 'github.com' in self.repo else 'svn co {0} {1}'
 
