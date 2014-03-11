@@ -6,17 +6,20 @@ import pkg_resources
 
 class DevGenerator(object):
     def __init__(self, name, repo, nophpcan):
-        self.name = name
-        self.repo = repo
-        self.basedir = '/Users/berto/Projects/www/{0}'
-        self.targetdir = self.basedir.format(self.name)
-        self.confdir = self.basedir.format('conf/')
+        basedir = '/Users/berto/Projects/www/{0}'
 
         if nophpcan:
             template = 'default.template'
         else:
             template = 'default.phpcan.template'
 
+        #setup directories and names
+        self.name = name
+        self.repo = repo
+        self.targetdir = basedir.format(self.name)
+        self.confdir = basedir.format('conf/')
+
+        #load template
         self.template = pkg_resources.resource_string('resources', template)
 
         # replace template
@@ -48,7 +51,7 @@ class DevGenerator(object):
         if not self.nophpcan:
             #change permissions
             writable_folders = ['/phpcan/cache', '/phpcan/logs',
-                               '/web/uploads', '/web/cache']
+                                '/web/uploads', '/web/cache']
             for folder in writable_folders:
                 os.chmod(self.targetdir + folder, 0777)
 
