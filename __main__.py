@@ -47,9 +47,9 @@ class DevGenerator(object):
 
         if not self.nophpcan:
             #change permissions
-            writabe_folders = ['/phpcan/cache', '/phpcan/logs',
+            writable_folders = ['/phpcan/cache', '/phpcan/logs',
                                '/web/uploads', '/web/cache']
-            for folder in writabe_folders:
+            for folder in writable_folders:
                 os.chmod(self.targetdir + folder, 0777)
 
     def restartServer(self):
