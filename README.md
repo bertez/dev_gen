@@ -1,5 +1,5 @@
 ```
-usage: __main__.py [-h] [--repo REPO] [--nophpcan] name
+usage: dev_gen [-h] [--repo REPO] [--nophpcan] name
 
 Create a local development server
 
