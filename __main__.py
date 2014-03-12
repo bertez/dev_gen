@@ -21,7 +21,6 @@ class DevGenerator(object):
 
         #load template
         self.template = pkg_resources.resource_string('resources', template)
-
         # replace template
         self.conf = self.template.format(name=self.name)
         self.nophpcan = nophpcan
@@ -34,21 +33,35 @@ class DevGenerator(object):
             sys.exit(2)
 
         # Create folder in place
-        print '...Creating folder'
-        os.makedirs(self.targetdir)
+        try:
+            print '...Creating folder'
+            os.makedirs(self.targetdir)
+        except:
+            print 'Error creating folder :('
+            sys.exit(2)
 
         # create file in conf folder
-        print '...Writing nginx configuration'
-        with open(self.confdir + self.name, 'w') as f:
-            f.write(self.conf)
+        try:
+            print '...Writing nginx configuration'
+            with open(self.confdir + self.name, 'w') as f:
+                f.write(self.conf)
+        except:
+            print 'Error creating conf file :('
+            sys.exit(2)
 
     def updateRepo(self):
         command = 'git clone {0} {1}' if 'github.com' in self.repo else 'svn co {0} {1}'
 
-        #execute checkout/clone
-        os.system(command.format(self.repo, self.targetdir))
+        change_permissions = False
 
-        if not self.nophpcan:
+        #execute checkout/clone
+        try:
+            os.system(command.format(self.repo, self.targetdir))
+            change_permissions = True
+        except:
+            print 'Error updating the repo, please do it manually'
+
+        if change_permissions and not self.nophpcan:
             #change permissions
             writable_folders = ['/phpcan/cache', '/phpcan/logs',
                                 '/web/uploads', '/web/cache']
