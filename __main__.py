@@ -66,7 +66,10 @@ class DevGenerator(object):
             writable_folders = ['/phpcan/cache', '/phpcan/logs',
                                 '/web/uploads', '/web/cache']
             for folder in writable_folders:
-                os.chmod(self.targetdir + folder, 0777)
+                directory = self.targetdir + folder
+                if not os.path.exists(directory):
+                    os.makedirs(directory)
+                os.chmod(directory, 0777)
 
     def restartServer(self):
         # restart nginx
