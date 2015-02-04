@@ -5,25 +5,29 @@ import pkg_resources
 
 
 class DevGenerator(object):
-    def __init__(self, name, repo, nophpcan):
+    def __init__(self, name, repo, type):
         basedir = '/Users/berto/Projects/www/{0}'
 
-        if nophpcan:
-            template = 'default.template'
-        else:
-            template = 'default.phpcan.template'
+        templates = {
+            'default': 'default.template',
+            'phpcan': 'default.phpcan.template',
+            'laravel': 'default.laravel.template'
+        }
 
-        #setup directories and names
+        template = templates[type]
+
+
+        # setup directories and names
         self.name = name
         self.repo = repo
         self.targetdir = basedir.format(self.name)
         self.confdir = basedir.format('conf/')
 
-        #load template
+        # load template
         self.template = pkg_resources.resource_string('resources', template)
         # replace template
         self.conf = self.template.format(name=self.name)
-        self.nophpcan = nophpcan
+        self.type = type
 
     def createDev(self):
         # Check if folder exists
@@ -50,19 +54,21 @@ class DevGenerator(object):
             sys.exit(2)
 
     def updateRepo(self):
-        command = 'git clone {0} {1}' if 'github.com' in self.repo else 'svn co {0} {1}'
+        gitRepos = ['github', 'gitlab']
+
+        command = 'git clone {0} {1}' if any(repo in self.repo for repo in gitRepos) else 'svn co {0} {1}'
 
         change_permissions = False
 
-        #execute checkout/clone
+        # execute checkout/clone
         try:
             os.system(command.format(self.repo, self.targetdir))
             change_permissions = True
         except:
             print 'Error updating the repo, please do it manually'
 
-        if change_permissions and not self.nophpcan:
-            #change permissions
+        if change_permissions and self.type == 'phpcan':
+            # change permissions
             writable_folders = ['/phpcan/cache', '/phpcan/logs',
                                 '/web/uploads', '/web/cache']
             for folder in writable_folders:
@@ -89,12 +95,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Create a local development server')
     parser.add_argument('name', action='store', help='Name of the environment')
     parser.add_argument('--repo', action='store', dest='repo', default=None, help='URL of the repo. Supports svn and github repos.')
-    parser.add_argument('--nophpcan', action='store_true', dest='nophpcan',
-                        default=False, help='Do not create phpcan rewrites')
+    parser.add_argument('--template', action='store', dest='template', default='default', choices=['default', 'phpcan', 'laravel'], help='Type of framework')
 
     arguments = parser.parse_args()
 
-    d = DevGenerator(arguments.name, arguments.repo, arguments.nophpcan)
+    d = DevGenerator(arguments.name, arguments.repo, arguments.template)
 
     print 'Creating new development environment'
     d.createDev()
