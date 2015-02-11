@@ -5,6 +5,12 @@ server {{
 
   #enable php-fpm
   location / {{
+
+      if (!-e $request_filename) {{
+        rewrite /_(.*?)_/ /file.php last;
+        rewrite ^(.*)$ /index.php last;
+      }}
+
       include   /usr/local/etc/nginx/conf.d/php-fpm;
   }}
 

@@ -94,7 +94,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Create a local development server')
     parser.add_argument('name', action='store', help='Name of the environment')
-    parser.add_argument('--repo', action='store', dest='repo', default=None, help='URL of the repo. Supports svn and github repos.')
+    parser.add_argument('--repo', action='store', dest='repo', default=None, help='URL of the repo. Supports svn, github and gitlab repos.')
     parser.add_argument('--template', action='store', dest='template', default='default', choices=['default', 'phpcan', 'laravel'], help='Type of framework')
 
     arguments = parser.parse_args()
